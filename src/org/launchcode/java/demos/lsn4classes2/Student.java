@@ -1,5 +1,7 @@
 package org.launchcode.java.demos.lsn4classes2;
 
+import java.util.Objects;
+
 public class Student {
 
     private static int nextStudentId = 1;
@@ -30,13 +32,30 @@ public class Student {
 
 
      //TODO: Uncomment and complete the getGradeLevel method here:
-//    public String getGradeLevel() {
-//        // Determine the grade level of the student based on numberOfCredits
-//    }
+    public String getGradeLevel() {
+        // Determine the grade level of the student based on numberOfCredits
+        String gradeLevel = "";
+        if (this.numberOfCredits <= 29) {
+            gradeLevel = "Freshman";
+        } else if (this.numberOfCredits <=59) {
+            gradeLevel = "Sophomore";
+        } else if (this.numberOfCredits <= 89) {
+            gradeLevel = "Junior";
+        } else if (this.numberOfCredits > 90) {
+            gradeLevel = "Senior";
+        }
+        return gradeLevel;
+    }
 
     // TODO: Complete the addGrade method.
     public void addGrade(int courseCredits, double grade) {
         // Update the appropriate fields: numberOfCredits, gpa
+        double currentGpaBreakdown = this.numberOfCredits * this.gpa;
+
+        this.numberOfCredits += courseCredits;
+
+        this.gpa = (currentGpaBreakdown + (courseCredits * grade))/this.numberOfCredits;
+
     }
 
     // TODO: Add your custom 'toString' method here. Make sure it returns a well-formatted String rather
@@ -85,5 +104,28 @@ public class Student {
         System.out.println(sally);
         sally.addGrade(25, 3.8);
         System.out.println(sally);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return studentId == student.studentId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(studentId);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", studentId=" + studentId +
+                ", numberOfCredits=" + numberOfCredits +
+                ", gpa=" + gpa +
+                '}';
     }
 }
